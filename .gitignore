@@ -1,0 +1,32 @@
+# Dados brutos e sensíveis — nunca versionados (contêm dados reais de hóspedes)
+fontes/
+data/raw/
+*.xlsx
+*.xls
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/dbt_venv/
+dbt/*.duckdb
+dbt/*.duckdb.wal
+logs/
+
+# Airflow
+airflow/logs/
+airflow/airflow.cfg
+airflow/airflow.db
+
+# OS / editor
+.DS_Store
+desktop.ini
+.vscode/
+.idea/

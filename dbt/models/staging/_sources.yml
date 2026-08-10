@@ -1,0 +1,61 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: >
+      Saída de scripts/consolida_fontes.py, carregada via
+      scripts/carrega_duckdb.py. Nunca editar essas tabelas à mão — regenerar
+      rodando os dois scripts de novo.
+    tables:
+      - name: fato_reserva
+        description: Grão reserva. valor_total é o original, intocado.
+        columns:
+          - name: reserva
+            tests: [unique, not_null]
+          - name: hospede_id
+            tests: [not_null]
+          - name: check_in
+            tests: [not_null]
+
+      - name: estadias
+        description: >
+          Grão reserva x quarto. valor_alocado é o rateio proporcional às
+          diárias (CLAUDE.md §11); origem_dado distingue mapa_confirmado de
+          so_cadastro.
+        columns:
+          - name: estadia_id
+            tests: [unique, not_null]
+          - name: reserva
+            tests: [not_null]
+          - name: quarto
+            tests: [not_null]
+
+      - name: room_nights
+        description: Grão reserva x quarto x noite. Fato atômico, só mapa_confirmado.
+
+      - name: inventario_mensal
+        description: >
+          Grão ano x mes x quarto. O denominador de ocupação/RevPAR — nunca
+          uma constante no código. origem distingue mapa de seed_proprietario
+          (2006-2008, sem mapa nenhum).
+
+      - name: dim_hospede
+        description: Grão reserva x hóspede (não deduplicado — ver hospede_resolvido).
+
+      - name: hospede_resolvido
+        description: >
+          Resolução de hóspede único entre reservas por telefone/e-mail
+          normalizado. Aproximação, não identidade garantida.
+
+      - name: divergencias
+        description: Reservas com conflito mapa x cadastro (quarto/data/sem_cadastro).
+
+      - name: so_cadastro_sem_quarto
+        description: Reservas só-cadastro sem quarto identificável — pendência.
+
+      - name: conflitos_inventario_seed
+        description: Meses onde o mapa e a tabela do proprietário divergem na contagem de quartos.
+
+      - name: quartos_orfaos
+        description: Quarto vendido que não existe no inventário daquele mês. Tem que ser 0.
