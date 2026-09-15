@@ -17,7 +17,9 @@ disponivel as (
         mes,
         count(distinct quarto) as quartos,
         max(temporada) as temporada,
-        extract(day from last_day(make_date(ano, mes, 1))) as dias_no_mes
+        -- make_date é DuckDB; date_from_parts é Snowflake. Construção via
+        -- string ISO ('AAAA-MM-01') é portável entre os dois.
+        extract(day from last_day(cast(ano || '-' || lpad(cast(mes as varchar), 2, '0') || '-01' as date))) as dias_no_mes
     from {{ ref('stg_inventario_mensal') }}
     group by ano, mes
 )
