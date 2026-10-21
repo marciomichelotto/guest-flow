@@ -81,6 +81,19 @@ Penetração fora da região Sul/Sudeste é marginal — qualquer leitura de can
 de aquisição ou campanha precisa considerar que a base histórica é, antes de
 tudo, uma clientela de proximidade.
 
+## Dashboard Power BI
+
+Quatro páginas sobre os marts: visão executiva, sazonalidade, perfil dos
+hóspedes e diagnóstico com recomendações.
+
+![Visão Executiva](docs/img/dashboard-1-visao-executiva.png)
+
+![Sazonalidade](docs/img/dashboard-2-sazonalidade.png)
+
+![Hóspedes e reservas](docs/img/dashboard-3-hospedes.png)
+
+![Diagnóstico](docs/img/dashboard-4-diagnostico.png)
+
 ## Stack
 
 Python (extração) → dbt Core → DuckDB local (dev, zero custo) → Snowflake
