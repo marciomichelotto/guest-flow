@@ -2,15 +2,15 @@
 
 Modelagem dimensional (Kimball) de 10 anos de operação real de uma pousada de
 praia em Matinhos/PR (2006-2017), a partir dos registros originais do negócio
-— planilhas de mapa de ocupação e cadastro de hóspedes, não dado sintético.
+- planilhas de mapa de ocupação e cadastro de hóspedes, não dado sintético.
 
 **A regra do projeto:** hospedagem, ocupação e diárias são dados reais e
 continuam reais. Nada de simulação ou preenchimento de lacuna nessas três
-coisas — quando falta dado, o buraco fica documentado, não estimado. Detalhe
+coisas - quando falta dado, o buraco fica documentado, não estimado. Detalhe
 completo das decisões, regras de negócio e achados: ver [CLAUDE.md](./CLAUDE.md).
 
 Este projeto substitui uma tentativa anterior que misturava dado real com
-campos fabricados (CPF, nacionalidade, endereço) sem marcação — a
+campos fabricados (CPF, nacionalidade, endereço) sem marcação - a
 reconstrução aqui prioriza rigor sobre completude aparente.
 
 ## Achados
