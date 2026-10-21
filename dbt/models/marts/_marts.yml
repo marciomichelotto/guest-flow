@@ -25,7 +25,25 @@ models:
       não depende do denominador de inventário.
     columns:
       - name: reserva
-        tests: [unique, not_null]
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_fato_reserva')
+                field: reserva
+      - name: is_grupo
+        tests: [not_null]
+      - name: fase_temporada
+        tests:
+          - accepted_values:
+              arguments:
+                values: [alta, media, baixa]
+      - name: lead_faixa
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['<=7d', '8-30d', '31-90d', '>90d']
 
   - name: mart_hospede_retorno
     description: >

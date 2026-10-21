@@ -1,0 +1,76 @@
+version: 2
+
+# Testes de integridade referencial e de domínio da camada staging.
+models:
+  - name: stg_fato_reserva
+    columns:
+      - name: reserva
+        tests: [unique, not_null]
+      - name: origem_dado
+        tests:
+          - accepted_values:
+              arguments:
+                values: [mapa_confirmado, so_cadastro]
+      - name: tipo_divergencia
+        tests:
+          - accepted_values:
+              arguments:
+                values: [quarto, data, 'quarto|data', sem_cadastro]
+      - name: diarias_total
+        tests: [not_null]
+      - name: n_quartos
+        description: Nulo nas 271 reservas só-cadastro sem quarto identificável (pendência conhecida, R$ 129 mil).
+        tests:
+          - not_null:
+              config:
+                severity: warn
+
+  - name: stg_estadias
+    columns:
+      - name: reserva
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_fato_reserva')
+                field: reserva
+      - name: origem_dado
+        tests:
+          - accepted_values:
+              arguments:
+                values: [mapa_confirmado, so_cadastro]
+      - name: metodo_alocacao
+        tests:
+          - accepted_values:
+              arguments:
+                values: [rateio_por_diarias]
+      - name: diarias
+        tests: [not_null]
+
+  - name: stg_room_nights
+    columns:
+      - name: reserva
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_fato_reserva')
+                field: reserva
+      - name: data_noite
+        tests: [not_null]
+
+  - name: stg_hospede_resolvido
+    columns:
+      - name: reserva
+        tests:
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_fato_reserva')
+                field: reserva
+
+  - name: stg_inventario_mensal
+    columns:
+      - name: origem
+        tests:
+          - accepted_values:
+              arguments:
+                values: [mapa, seed_proprietario]

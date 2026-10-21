@@ -94,6 +94,22 @@ hóspedes e diagnóstico com recomendações.
 
 ![Diagnóstico](docs/img/dashboard-4-diagnostico.png)
 
+## Qualidade dos dados
+
+Dois níveis de conferência:
+
+```powershell
+cd dbt; dbt build                      # modelos + 61 testes (unique, relationships, accepted_values, reconciliações)
+cd ..; python scripts/auditoria.py     # recálculo independente; gera docs/auditoria.md
+```
+
+- `dbt build`: integridade, domínio e os 4 testes do CLAUDE.md §8. Testes de
+  severidade **warn** medem problemas reais do dado (dupla ocupação de quarto,
+  reservas sem valor, reservas sem quarto) sem escondê-los.
+- `auditoria.py`: relê as planilhas .xlsx célula a célula por um caminho
+  independente do parser, recalcula os KPIs do dashboard em pandas e reconcilia
+  raw → staging → marts. Relatório em [docs/auditoria.md](docs/auditoria.md).
+
 ## Stack
 
 Python (extração) → dbt Core → DuckDB local (dev, zero custo) → Snowflake
