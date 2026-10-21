@@ -1,0 +1,23 @@
+table Cobertura
+	lineageTag: 298a71c7-9da8-4c7c-9e76-a454d74a4552
+
+	measure 'Cobertura do Campo' = SWITCH(SELECTEDVALUE(Cobertura[Campo]), "Confirmada no mapa", [Cobertura Origem Mapa], "Cidade informada", [Cobertura Cidade], "UF informada", [Cobertura UF], "Data da reserva", [Cobertura Antecedencia])
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: 4c6a0fc3-0a44-4064-ab36-e2f0581c2524
+
+	column Campo
+		lineageTag: ccd8faf7-3ab0-4b1a-bc69-e8c6456c7488
+		isNameInferred
+		sourceColumn: [Campo]
+		sortByColumn: Ordem
+
+	column Ordem
+		lineageTag: 5669ca35-4ca1-4b1e-9dc0-193449c0c24f
+		isNameInferred
+		sourceColumn: [Ordem]
+
+	partition Cobertura = calculated
+		mode: import
+		source = DATATABLE("Campo", STRING, "Ordem", INTEGER, {{"Confirmada no mapa", 1}, {"Cidade informada", 2}, {"UF informada", 3}, {"Data da reserva", 4}})
+

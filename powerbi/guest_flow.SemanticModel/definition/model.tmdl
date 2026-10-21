@@ -1,0 +1,25 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["MART_OCUPACAO_MENSAL","MART_KPIS_RESERVA"]
+
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
+
+ref table MART_OCUPACAO_MENSAL
+ref table MART_KPIS_RESERVA
+ref table DateTableTemplate_ed6fe742-822f-46c2-9038-64a5865c4832
+ref table LocalDateTable_c7d49e8b-a7b7-4de5-bc2d-133617022ca3
+ref table LocalDateTable_db3e0409-55b5-4511-9483-505865668efb
+ref table LocalDateTable_3a8bb23f-977e-47e8-9b08-7432ec5f9635
+ref table Cobertura
+
+ref cultureInfo pt-BR
+

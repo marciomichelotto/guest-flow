@@ -1,0 +1,785 @@
+cultureInfo pt-BR
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "mart_ocupacao_mensal.revpar_receita_por_quarto_disponivel": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "RevPAR (Receita por Quarto Disponivel)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "REVPAR": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.taxa_de_ocupacao_media": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Taxa de Ocupacao Media"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ocupação": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "TAXA DE OCUPAÇÃO": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.pico_mensal_ocupacao": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Pico Mensal Ocupacao"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PICO MENSAL": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.fase_temporada": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "FASE_TEMPORADA"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "mart_ocupacao_mensal.adr_diaria_media": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "ADR (Diaria Media)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ADR": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "ADR · DIÁRIA MÉDIA": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "ADR (R$)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.receita_da_fase": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "% Receita da Fase"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% da receita": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.receita_hospedagem": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Receita Hospedagem"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RECEITA DE HOSPEDAGEM": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.texto_mes_forte": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Texto Mes Forte"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "MÊS MAIS FORTE": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.adr_dez_vs_jul_texto": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "ADR Dez vs Jul (texto)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ADR · DEZEMBRO E JULHO": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.mes_nome": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Mes Nome"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Mês": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.receita_no_periodo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "% Receita no Periodo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% da receita": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.amplitude_sazonal": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Amplitude Sazonal"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AMPLITUDE SAZONAL": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.texto_mes_fraco": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Texto Mes Fraco"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "MÊS MAIS FRACO": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.indice_sazonal_eixo_mes_nome": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Indice Sazonal (eixo Mes Nome)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Índice": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cobertura.campo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Cobertura",
+			          "ConceptualProperty": "Campo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Campo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "cobertura.cobertura_do_campo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Cobertura",
+			          "ConceptualProperty": "Cobertura do Campo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Preenchido": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.fora_do_pr": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "% Fora do PR"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "HÓSPEDES DE FORA DO PR": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.reservas_em_grupo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "% Reservas em Grupo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESERVAS EM GRUPO": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.ticket_medio_por_reserva": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "Ticket Medio por Reserva"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "TICKET MÉDIO": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.permanencia_media_noites": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "Permanencia Media (noites)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "PERMANÊNCIA MÉDIA (NOITES)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.reservas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "# Reservas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RESERVAS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.cidade_limpa": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "Cidade Limpa"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cidade": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.reservas_cidade_top_8": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "% Reservas (Cidade) Top 8"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% das reservas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.estado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "ESTADO"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ESTADO": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.reservas_uf_top_8": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "% Reservas (UF) Top 8"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% das reservas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.origem_dado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "ORIGEM_DADO"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Origem do dado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.antecedencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "Antecedencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Antecedência": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.reservas_antecedencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "% Reservas (Antecedencia)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% das reservas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.adr_dezembro": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "ADR Dezembro"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ADR de dezembro": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.occ_dezembro": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Occ Dezembro"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ocupação de dezembro": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.diarias_vendidas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Diarias Vendidas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Diárias vendidas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.var_adr_20122016": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Var ADR 2012-2016"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "DIÁRIA MÉDIA (ADR) · 2012 → 2016": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.var_diarias_20122016": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Var Diarias 2012-2016"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "DIÁRIAS VENDIDAS · 2012 → 2016": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.var_receita_20122016": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "Var Receita 2012-2016"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RECEITA · 2012 → 2016": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_ocupacao_mensal.receita_janfevdez": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_OCUPACAO_MENSAL",
+			          "ConceptualProperty": "% Receita Jan-Fev-Dez"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "RECEITA EM JAN · FEV · DEZ": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "mart_kpis_reserva.ticket_cidade_top_8": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "MART_KPIS_RESERVA",
+			          "ConceptualProperty": "Ticket Cidade Top 8"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ticket médio": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

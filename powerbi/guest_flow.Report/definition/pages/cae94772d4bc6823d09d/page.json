@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "cae94772d4bc6823d09d",
+  "displayName": "Diagnóstico e Ações",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920
+}

@@ -1,0 +1,329 @@
+table MART_KPIS_RESERVA
+	lineageTag: 7906b192-4ef0-4e6e-916c-449b15320708
+
+	measure 'Receita Total (Reservas)' = SUM(MART_KPIS_RESERVA[VALOR_TOTAL])
+		formatString: "R$"#,##0
+		lineageTag: c1aef8cb-d808-4f06-945d-2b020ffa70f7
+
+	measure '% Reservas em Grupo' = DIVIDE(CALCULATE(COUNTROWS(MART_KPIS_RESERVA), MART_KPIS_RESERVA[IS_GRUPO] = TRUE()), COUNTROWS(MART_KPIS_RESERVA))
+		formatString: 0.0%
+		lineageTag: f38978b1-09ea-4aa8-a8e4-08cd508fd53c
+
+	measure 'Ticket Medio por Reserva' = DIVIDE(SUM(MART_KPIS_RESERVA[VALOR_TOTAL]), DISTINCTCOUNT(MART_KPIS_RESERVA[RESERVA]))
+		formatString: "R$"#,##0
+		lineageTag: a20e4b17-882b-4861-ac90-d743ed379b5c
+
+	measure 'Permanencia Media (noites)' = AVERAGE(MART_KPIS_RESERVA[DIARIAS_TOTAL])
+		formatString: 0.0
+		lineageTag: a1f73949-6c5b-4148-af28-b5ca8bca1a3a
+
+	measure '# Reservas' = COUNTROWS(MART_KPIS_RESERVA)
+		formatString: #,##0
+		displayFolder: Auxiliares
+		lineageTag: 7660e4cb-fbf1-49fe-911f-25f185efa9f8
+
+	measure '% Fora do PR' =
+			VAR _comUF = CALCULATE(COUNTROWS(MART_KPIS_RESERVA), NOT ISBLANK(MART_KPIS_RESERVA[ESTADO]))
+			VAR _foraPR = CALCULATE(COUNTROWS(MART_KPIS_RESERVA), NOT ISBLANK(MART_KPIS_RESERVA[ESTADO]), MART_KPIS_RESERVA[ESTADO] <> "PR")
+			RETURN DIVIDE(_foraPR, _comUF)
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: 8c136b63-9124-4967-817a-29da46d55ce0
+
+	measure 'Cobertura Origem Mapa' = DIVIDE(CALCULATE(COUNTROWS(MART_KPIS_RESERVA), MART_KPIS_RESERVA[ORIGEM_DADO] = "mapa_confirmado"), COUNTROWS(MART_KPIS_RESERVA))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: a0439d89-d444-45d5-abc5-bed5517677cc
+
+	measure 'Cobertura UF' = DIVIDE(CALCULATE(COUNTROWS(MART_KPIS_RESERVA), NOT ISBLANK(MART_KPIS_RESERVA[ESTADO])), COUNTROWS(MART_KPIS_RESERVA))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: d9c2bf63-1a72-4cb4-8b3d-2796e80f938a
+
+	measure 'Cobertura Cidade' = DIVIDE(CALCULATE(COUNTROWS(MART_KPIS_RESERVA), NOT ISBLANK(MART_KPIS_RESERVA[CIDADE])), COUNTROWS(MART_KPIS_RESERVA))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: 449f1354-d31a-4f79-b2d3-a556e890a7c6
+
+	measure 'Cobertura Antecedencia' = DIVIDE(CALCULATE(COUNTROWS(MART_KPIS_RESERVA), NOT ISBLANK(MART_KPIS_RESERVA[LEAD_FAIXA])), COUNTROWS(MART_KPIS_RESERVA))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: 25e3cdd8-78b5-4610-ada0-ac86670a1f30
+
+	measure '% Reservas (UF) Top 8' =
+			VAR est = SELECTEDVALUE(MART_KPIS_RESERVA[ESTADO])
+			VAR base = CALCULATE([# Reservas], REMOVEFILTERS(MART_KPIS_RESERVA[ESTADO]), NOT ISBLANK(MART_KPIS_RESERVA[ESTADO]))
+			VAR rk = RANKX(FILTER(ALLSELECTED(MART_KPIS_RESERVA[ESTADO]), NOT ISBLANK(MART_KPIS_RESERVA[ESTADO])), [# Reservas], , DESC, DENSE)
+			RETURN IF(NOT ISBLANK(est) && rk <= 8, DIVIDE([# Reservas], base))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: d16855a7-ed7e-4520-a631-82df2257823b
+
+	measure '% Reservas (Cidade) Top 8' =
+			VAR cid = SELECTEDVALUE(MART_KPIS_RESERVA[Cidade Limpa])
+			VAR base = CALCULATE([# Reservas], REMOVEFILTERS(MART_KPIS_RESERVA[Cidade Limpa]), NOT ISBLANK(MART_KPIS_RESERVA[Cidade Limpa]))
+			VAR rk = RANKX(FILTER(ALLSELECTED(MART_KPIS_RESERVA[Cidade Limpa]), NOT ISBLANK(MART_KPIS_RESERVA[Cidade Limpa])), [# Reservas], , DESC, DENSE)
+			RETURN IF(NOT ISBLANK(cid) && rk <= 8, DIVIDE([# Reservas], base))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: d154efc2-f766-4483-a259-2db19cec79f7
+
+	measure '% Reservas (Antecedencia)' = DIVIDE([# Reservas], CALCULATE([# Reservas], REMOVEFILTERS(MART_KPIS_RESERVA[LEAD_FAIXA]), REMOVEFILTERS(MART_KPIS_RESERVA[Antecedencia]), REMOVEFILTERS(MART_KPIS_RESERVA[Lead Ordem]), NOT ISBLANK(MART_KPIS_RESERVA[LEAD_FAIXA])))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: 7bf7dd95-385d-4f62-8e29-e548681fbd36
+
+	measure 'Ticket Cidade Top 8' = IF(NOT ISBLANK([% Reservas (Cidade) Top 8]), [Ticket Medio por Reserva])
+		formatString: "R$ "#,##0
+		lineageTag: 011a7680-b899-431f-b7f1-112519a2bb30
+
+	column RESERVA
+		dataType: double
+		lineageTag: f089a6cc-c3cf-49db-8be4-1d37baf9762e
+		summarizeBy: sum
+		sourceColumn: RESERVA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HOSPEDE_ID
+		dataType: double
+		lineageTag: 116868c8-2bf9-4a95-b954-d3868488a7a4
+		summarizeBy: count
+		sourceColumn: HOSPEDE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CHECK_IN
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ab4caecc-1d86-44b0-b98a-ae6dac29e757
+		summarizeBy: none
+		sourceColumn: CHECK_IN
+
+		variation Variation
+			isDefault
+			relationship: 8022b460-3259-4d2b-8ac6-76a75eaf2c34
+			defaultHierarchy: LocalDateTable_c7d49e8b-a7b7-4de5-bc2d-133617022ca3.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CHECK_OUT
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8559bb9d-5d33-44c8-810b-a3f3d11c276e
+		summarizeBy: none
+		sourceColumn: CHECK_OUT
+
+		variation Variation
+			isDefault
+			relationship: 2564a6bf-7b09-460b-9e2c-e1a451c83100
+			defaultHierarchy: LocalDateTable_db3e0409-55b5-4511-9483-505865668efb.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ANO_CIVIL
+		dataType: double
+		lineageTag: c91cf574-98c4-4a73-b5cf-2d4c96ac2f8f
+		summarizeBy: sum
+		sourceColumn: ANO_CIVIL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MES_CIVIL
+		dataType: double
+		lineageTag: dd0347bb-8ae3-49cb-ab6e-6453e16a1843
+		summarizeBy: sum
+		sourceColumn: MES_CIVIL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TEMPORADA
+		dataType: string
+		lineageTag: f6a4c5fa-2d78-4d90-aa28-e928d4a23b3a
+		summarizeBy: none
+		sourceColumn: TEMPORADA
+
+		annotation SummarizationSetBy = Automatic
+
+	column FASE_TEMPORADA
+		dataType: string
+		lineageTag: 08a2729a-fe7e-4b55-8564-ae5c3fb7d5be
+		summarizeBy: none
+		sourceColumn: FASE_TEMPORADA
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIARIAS_TOTAL
+		dataType: double
+		lineageTag: e7688106-feaa-4325-822e-37add208b9e4
+		summarizeBy: sum
+		sourceColumn: DIARIAS_TOTAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VALOR_TOTAL
+		dataType: double
+		lineageTag: 14c2a70f-d150-4d0d-ab68-f94d07a20679
+		summarizeBy: sum
+		sourceColumn: VALOR_TOTAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VALOR_DIARIA_MEDIO
+		dataType: double
+		lineageTag: c7174431-6c99-47b1-a1dc-9ab80d944693
+		summarizeBy: sum
+		sourceColumn: VALOR_DIARIA_MEDIO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_GRUPO
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c01a13c6-aee1-4c5b-a273-9748f31a2de6
+		summarizeBy: none
+		sourceColumn: IS_GRUPO
+
+		annotation SummarizationSetBy = Automatic
+
+	column N_QUARTOS
+		dataType: double
+		lineageTag: af622916-c3cd-47b6-a72f-159c9dc56813
+		summarizeBy: sum
+		sourceColumn: N_QUARTOS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAX_TOTAL
+		dataType: double
+		lineageTag: 13b9d8e9-8ee0-4201-97b3-284976d3fb4f
+		summarizeBy: sum
+		sourceColumn: PAX_TOTAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAX_PAGANTE
+		dataType: double
+		lineageTag: 2681f1e8-b88b-4afd-810a-b5a64b141ef8
+		summarizeBy: sum
+		sourceColumn: PAX_PAGANTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ESTADO
+		dataType: string
+		lineageTag: 4a44be7c-e5fd-4dfa-bfb8-6fd18618027b
+		summarizeBy: none
+		sourceColumn: ESTADO
+
+		annotation SummarizationSetBy = Automatic
+
+	column CIDADE
+		dataType: string
+		lineageTag: fbda126b-b1fa-49ba-b5db-ebf70f167dbb
+		summarizeBy: none
+		sourceColumn: CIDADE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATA_RESERVA
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6d0f81da-1640-492d-8194-a20a9cbc3064
+		summarizeBy: none
+		sourceColumn: DATA_RESERVA
+
+		variation Variation
+			isDefault
+			relationship: 020c4efa-3fef-4e6c-b2d1-8ab3b2cea44f
+			defaultHierarchy: LocalDateTable_3a8bb23f-977e-47e8-9b08-7432ec5f9635.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column LEAD_DIAS
+		dataType: double
+		lineageTag: 3259a900-0104-4aca-93c2-9ee47a18642f
+		summarizeBy: sum
+		sourceColumn: LEAD_DIAS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LEAD_FAIXA
+		dataType: string
+		lineageTag: a3ad946f-0d9f-4d66-902f-b18d0dd99b35
+		summarizeBy: none
+		sourceColumn: LEAD_FAIXA
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORIGEM_DADO
+		dataType: string
+		lineageTag: f39e1114-d57e-4344-a30d-5f305c3e4bd1
+		summarizeBy: none
+		sourceColumn: ORIGEM_DADO
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lead Ordem' = SWITCH(MART_KPIS_RESERVA[LEAD_FAIXA], "<=7d", 1, "8-30d", 2, "31-90d", 3, ">90d", 4, BLANK())
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b22ff02f-53fd-4849-9c74-9a599b9df006
+		summarizeBy: none
+
+	column Antecedencia = SWITCH(MART_KPIS_RESERVA[LEAD_FAIXA], "<=7d", "≤ 7 dias", "8-30d", "8–30 dias", "31-90d", "31–90 dias", ">90d", "> 90 dias", BLANK())
+		dataType: string
+		lineageTag: 9f9fbd75-ec38-4ded-ae74-571135428104
+		summarizeBy: none
+		sortByColumn: 'Lead Ordem'
+
+	column 'Cidade Limpa' =
+			VAR c = TRIM(MART_KPIS_RESERVA[CIDADE])
+			VAR suf = UPPER(RIGHT(c, 3))
+			VAR c2 = IF(suf = "-PR" || suf = "_PR", TRIM(LEFT(c, LEN(c) - 3)), c)
+			RETURN IF(c2 = "", BLANK(), IF(CONTAINSSTRING(c2, "Londrina") && NOT CONTAINSSTRING(c2, "Nova"), "Londrina", c2))
+		dataType: string
+		lineageTag: f1b5ed29-1ab9-4125-8fc7-038ac6344097
+		summarizeBy: none
+
+	partition MART_KPIS_RESERVA = m
+		mode: import
+		source =
+				let
+				    Fonte = Snowflake.Databases("RZFQSVC-JX11949","COMPUTE_WH",[Implementation="2.0"]),
+				    GUEST_FLOW_Database = Fonte{[Name="GUEST_FLOW",Kind="Database"]}[Data],
+				    GOLD_MARTS_Schema = GUEST_FLOW_Database{[Name="GOLD_MARTS",Kind="Schema"]}[Data],
+				    MART_KPIS_RESERVA_Table = GOLD_MARTS_Schema{[Name="MART_KPIS_RESERVA",Kind="Table"]}[Data]
+				in
+				    MART_KPIS_RESERVA_Table
+
+	annotation PBI_ResultType = Table
+

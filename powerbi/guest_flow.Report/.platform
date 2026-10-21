@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "guest_flow"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b416a3d5-8500-4655-a2fb-a43fc7f3c503"
+  }
+}

@@ -1,0 +1,15 @@
+relationship 8022b460-3259-4d2b-8ac6-76a75eaf2c34
+	joinOnDateBehavior: datePartOnly
+	fromColumn: MART_KPIS_RESERVA.CHECK_IN
+	toColumn: LocalDateTable_c7d49e8b-a7b7-4de5-bc2d-133617022ca3.Date
+
+relationship 2564a6bf-7b09-460b-9e2c-e1a451c83100
+	joinOnDateBehavior: datePartOnly
+	fromColumn: MART_KPIS_RESERVA.CHECK_OUT
+	toColumn: LocalDateTable_db3e0409-55b5-4511-9483-505865668efb.Date
+
+relationship 020c4efa-3fef-4e6c-b2d1-8ab3b2cea44f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: MART_KPIS_RESERVA.DATA_RESERVA
+	toColumn: LocalDateTable_3a8bb23f-977e-47e8-9b08-7432ec5f9635.Date
+

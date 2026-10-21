@@ -1,0 +1,274 @@
+table MART_OCUPACAO_MENSAL
+	lineageTag: 547660fc-de3b-40c8-bd0b-ba14b60d5944
+
+	measure 'Taxa de Ocupacao Media' = DIVIDE(SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS]), SUM(MART_OCUPACAO_MENSAL[DISPONIVEIS]))
+		formatString: 0.0%
+		lineageTag: 88af9d61-9b91-492e-9f72-c2a8bf240a53
+
+	measure 'RevPAR (Receita por Quarto Disponivel)' = DIVIDE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), SUM(MART_OCUPACAO_MENSAL[DISPONIVEIS]))
+		formatString: "R$"#,##0.00
+		lineageTag: 994a6243-e899-44d3-959b-279240612915
+
+	measure 'ADR (Diaria Media)' = DIVIDE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS]))
+		formatString: "R$"#,##0.00
+		lineageTag: ef5640e6-77a2-432d-b69f-12fcc7c391e3
+
+	measure 'Indice de Sazonalidade' = DIVIDE([Taxa de Ocupacao Media], CALCULATE([Taxa de Ocupacao Media], ALL(MART_OCUPACAO_MENSAL[MES], MART_OCUPACAO_MENSAL[FASE_TEMPORADA])))
+		formatString: 0.00
+		lineageTag: 57b39c4d-5e4b-4def-b9de-a8b1ec43d99e
+
+	measure 'Noites Vendidas' = SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS])
+		formatString: #,##0
+		displayFolder: Auxiliares
+		lineageTag: b7fa4d65-fc21-405d-88c9-99766e5c19ef
+
+	measure 'Noites Disponiveis' = SUM(MART_OCUPACAO_MENSAL[DISPONIVEIS])
+		formatString: #,##0
+		displayFolder: Auxiliares
+		lineageTag: cfe9ef94-2a73-433a-be12-416d40bf3bfb
+
+	measure 'Receita Hospedagem' = SUM(MART_OCUPACAO_MENSAL[RECEITA])
+		formatString: "R$"#,##0
+		displayFolder: Auxiliares
+		lineageTag: 0f0aa3d4-31a2-4d4b-bab0-6e6a2832ea1c
+
+	measure '% Receita no Periodo' = DIVIDE([Receita Hospedagem], CALCULATE([Receita Hospedagem], ALL(MART_OCUPACAO_MENSAL[MES], MART_OCUPACAO_MENSAL[Mes Nome])))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: 7dcb16e5-2f04-4ac6-b485-a642430d4778
+
+	measure '% Receita da Fase' = DIVIDE([Receita Hospedagem], CALCULATE([Receita Hospedagem], ALL(MART_OCUPACAO_MENSAL[FASE_TEMPORADA], MART_OCUPACAO_MENSAL[Fase], MART_OCUPACAO_MENSAL[Fase Ordem])))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: 1808bbe6-8c90-4fb0-a863-5455e3453c3a
+
+	measure 'Pico Mensal Ocupacao' = MAXX(FILTER(MART_OCUPACAO_MENSAL, MART_OCUPACAO_MENSAL[DISPONIVEIS] > 0), DIVIDE(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS], MART_OCUPACAO_MENSAL[DISPONIVEIS]))
+		formatString: 0.0%
+		displayFolder: Auxiliares
+		lineageTag: c966e106-b7cf-41ef-9198-1a3d02c12084
+
+	measure 'Check RevPAR' = [Taxa de Ocupacao Media] * [ADR (Diaria Media)] - [RevPAR (Receita por Quarto Disponivel)]
+		formatString: 0.00
+		displayFolder: Auxiliares
+		lineageTag: b68b0d91-56e7-487a-b2a8-ed146c8465e5
+
+	/// Mesma logica do Indice de Sazonalidade, mas remove tambem o filtro de Mes Nome. Use quando o eixo do visual for Mes Nome.
+	measure 'Indice Sazonal (eixo Mes Nome)' = DIVIDE([Taxa de Ocupacao Media], CALCULATE([Taxa de Ocupacao Media], ALL(MART_OCUPACAO_MENSAL[MES], MART_OCUPACAO_MENSAL[Mes Nome], MART_OCUPACAO_MENSAL[FASE_TEMPORADA])))
+		formatString: 0.00
+		displayFolder: Auxiliares
+		lineageTag: f16bc9ae-eb43-429e-bbcf-b02926f1388e
+
+	measure 'Texto Mes Forte' =
+			VAR t = FILTER(ADDCOLUMNS(VALUES(MART_OCUPACAO_MENSAL[MES]), "Oc", [Taxa de Ocupacao Media]), [Oc] > 0)
+			VAR top1 = TOPN(1, t, [Oc], DESC)
+			VAR m = MAXX(top1, MART_OCUPACAO_MENSAL[MES])
+			VAR v = MAXX(top1, [Oc])
+			RETURN IF(ISBLANK(m), BLANK(), SWITCH(m, 1,"Janeiro",2,"Fevereiro",3,"Março",4,"Abril",5,"Maio",6,"Junho",7,"Julho",8,"Agosto",9,"Setembro",10,"Outubro",11,"Novembro",12,"Dezembro") & " · " & FORMAT(v, "0.0%"))
+		displayFolder: Auxiliares
+		lineageTag: 274626b8-454b-4a17-ac11-7280d5ad346c
+
+	measure 'Texto Mes Fraco' =
+			VAR t = FILTER(ADDCOLUMNS(VALUES(MART_OCUPACAO_MENSAL[MES]), "Oc", [Taxa de Ocupacao Media]), [Oc] > 0)
+			VAR top1 = TOPN(1, t, [Oc], ASC)
+			VAR m = MAXX(top1, MART_OCUPACAO_MENSAL[MES])
+			VAR v = MAXX(top1, [Oc])
+			RETURN IF(ISBLANK(m), BLANK(), SWITCH(m, 1,"Janeiro",2,"Fevereiro",3,"Março",4,"Abril",5,"Maio",6,"Junho",7,"Julho",8,"Agosto",9,"Setembro",10,"Outubro",11,"Novembro",12,"Dezembro") & " · " & FORMAT(v, "0.0%"))
+		displayFolder: Auxiliares
+		lineageTag: 183aea69-7bf8-4805-9ffb-bb35e85ab853
+
+	measure 'Amplitude Sazonal' =
+			VAR t = FILTER(ADDCOLUMNS(VALUES(MART_OCUPACAO_MENSAL[MES]), "Oc", [Taxa de Ocupacao Media]), [Oc] > 0)
+			RETURN DIVIDE(MAXX(t, [Oc]), MINX(t, [Oc]))
+		formatString: 0.0"×"
+		displayFolder: Auxiliares
+		lineageTag: 3e60836b-7090-423b-a470-d889fd079269
+
+	measure 'ADR Dez vs Jul (texto)' =
+			VAR d = CALCULATE([ADR (Diaria Media)], MART_OCUPACAO_MENSAL[MES] = 12)
+			VAR j = CALCULATE([ADR (Diaria Media)], MART_OCUPACAO_MENSAL[MES] = 7)
+			RETURN IF(OR(ISBLANK(d), ISBLANK(j)), BLANK(), "R$ " & FORMAT(d, "#,##0") & " · R$ " & FORMAT(j, "#,##0"))
+		displayFolder: Auxiliares
+		lineageTag: a2458fe9-d880-42f9-b966-8721715af883
+
+	measure 'Diarias Vendidas' = SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS])
+		formatString: #,##0
+		lineageTag: ef54e828-ea6a-4ff3-9694-1f74e94bf353
+
+	measure 'Occ Dezembro' = CALCULATE([Taxa de Ocupacao Media], MART_OCUPACAO_MENSAL[MES] = 12)
+		formatString: 0%
+		lineageTag: f3e75a83-0879-4536-9679-7b8250c58f70
+
+	measure 'ADR Dezembro' = CALCULATE([ADR (Diaria Media)], MART_OCUPACAO_MENSAL[MES] = 12)
+		formatString: "R$ "#,##0
+		lineageTag: 6486c6a9-64ed-424e-ab1b-e4a8038c5b07
+
+	measure 'Var Diarias 2012-2016' = VAR a = CALCULATE(SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS]), MART_OCUPACAO_MENSAL[ANO] = 2012) VAR b = CALCULATE(SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS]), MART_OCUPACAO_MENSAL[ANO] = 2016) RETURN DIVIDE(b, a) - 1
+		formatString: +0%;-0%
+		lineageTag: 3219e739-6cd3-4189-847b-1b5821c2482a
+
+	measure 'Var ADR 2012-2016' = VAR a = CALCULATE(DIVIDE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS])), MART_OCUPACAO_MENSAL[ANO] = 2012) VAR b = CALCULATE(DIVIDE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), SUM(MART_OCUPACAO_MENSAL[ROOM_NIGHTS_VENDIDOS])), MART_OCUPACAO_MENSAL[ANO] = 2016) RETURN DIVIDE(b, a) - 1
+		formatString: +0%;-0%
+		lineageTag: f970d59a-137d-4bae-9c81-256d1071da4f
+
+	measure 'Var Receita 2012-2016' = VAR a = CALCULATE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), MART_OCUPACAO_MENSAL[ANO] = 2012) VAR b = CALCULATE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), MART_OCUPACAO_MENSAL[ANO] = 2016) RETURN DIVIDE(b, a) - 1
+		formatString: +0%;-0%
+		lineageTag: b6ae3e46-96e8-47c9-9072-ea5edf195295
+
+	measure '% Receita Jan-Fev-Dez' = VAR anos = FILTER(ALL(MART_OCUPACAO_MENSAL[ANO]), MART_OCUPACAO_MENSAL[ANO] >= 2008 && MART_OCUPACAO_MENSAL[ANO] <= 2016) VAR alta = CALCULATE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), anos, ALL(MART_OCUPACAO_MENSAL[MES]), MART_OCUPACAO_MENSAL[MES] IN {12, 1, 2}) VAR tot = CALCULATE(SUM(MART_OCUPACAO_MENSAL[RECEITA]), anos, ALL(MART_OCUPACAO_MENSAL[MES])) RETURN DIVIDE(alta, tot)
+		formatString: 0%
+		lineageTag: 87831150-1c94-466e-a664-5dc42f7d46e2
+
+	column ANO
+		dataType: double
+		lineageTag: 3a4a35e8-6536-493b-aae8-db323aa1d238
+		summarizeBy: sum
+		sourceColumn: ANO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MES
+		dataType: double
+		lineageTag: fc3bf1cd-c3c0-40aa-8b3b-48a05d5c683b
+		summarizeBy: sum
+		sourceColumn: MES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TEMPORADA
+		dataType: string
+		lineageTag: 6b48796e-997b-490a-9d94-86be8287ca17
+		summarizeBy: none
+		sourceColumn: TEMPORADA
+
+		annotation SummarizationSetBy = Automatic
+
+	column FASE_TEMPORADA
+		dataType: string
+		lineageTag: 77782c5e-e313-411b-8ed6-23f3b12fb74d
+		summarizeBy: none
+		sourceColumn: FASE_TEMPORADA
+
+		annotation SummarizationSetBy = Automatic
+
+	column QUARTOS
+		dataType: double
+		lineageTag: 9c1125ae-c23a-420a-85e3-84023b1edb69
+		summarizeBy: sum
+		sourceColumn: QUARTOS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DIAS_NO_MES
+		dataType: double
+		lineageTag: 707032ec-cf27-4f55-8004-944a878c26c1
+		summarizeBy: sum
+		sourceColumn: DIAS_NO_MES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DISPONIVEIS
+		dataType: double
+		lineageTag: 5eb8bd0d-72d5-46f3-823f-274e87643cfa
+		summarizeBy: sum
+		sourceColumn: DISPONIVEIS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROOM_NIGHTS_VENDIDOS
+		dataType: double
+		lineageTag: 190de3cf-67d3-4f41-840a-152169ff1dfb
+		summarizeBy: sum
+		sourceColumn: ROOM_NIGHTS_VENDIDOS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RECEITA
+		dataType: double
+		lineageTag: 4c65a755-1a68-4dac-bc24-4853fc493332
+		summarizeBy: sum
+		sourceColumn: RECEITA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OCUPACAO_PCT
+		dataType: double
+		lineageTag: f032d340-27eb-4769-bf64-5d7035305025
+		summarizeBy: sum
+		sourceColumn: OCUPACAO_PCT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REVPAR
+		dataType: double
+		lineageTag: 1a0e02fb-e666-4e2d-ad39-29dc335d021d
+		summarizeBy: sum
+		sourceColumn: REVPAR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ADR
+		dataType: double
+		lineageTag: 89c54460-f024-4e93-a35c-f8ea0fad7098
+		summarizeBy: sum
+		sourceColumn: ADR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Data Mes' = DATE(MART_OCUPACAO_MENSAL[ANO], MART_OCUPACAO_MENSAL[MES], 1)
+		dataType: dateTime
+		formatString: mmm/yyyy
+		lineageTag: 38f65252-3756-4948-b53c-0b1280749dac
+		summarizeBy: none
+
+	column 'Mes Nome' = SWITCH(MART_OCUPACAO_MENSAL[MES], 1,"Jan",2,"Fev",3,"Mar",4,"Abr",5,"Mai",6,"Jun",7,"Jul",8,"Ago",9,"Set",10,"Out",11,"Nov",12,"Dez")
+		dataType: string
+		lineageTag: 302b7764-a094-4e55-8223-dd047d7fa8f2
+		summarizeBy: none
+		sortByColumn: MES
+
+	column 'Fase Ordem' = SWITCH(MART_OCUPACAO_MENSAL[FASE_TEMPORADA], "alta", 1, "media", 2, "baixa", 3)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 06e0f714-a133-4bee-b852-43211da283b2
+		summarizeBy: none
+
+	column Fase = SWITCH(MART_OCUPACAO_MENSAL[FASE_TEMPORADA], "alta", "Alta", "media", "Média", "baixa", "Baixa")
+		dataType: string
+		lineageTag: 74538f9f-0ed8-4b90-93ec-7ef81914a90d
+		summarizeBy: none
+		sortByColumn: 'Fase Ordem'
+
+	partition MART_OCUPACAO_MENSAL = m
+		mode: import
+		source =
+				let
+				    Fonte = Snowflake.Databases("RZFQSVC-JX11949","COMPUTE_WH",[Implementation="2.0"]),
+				    GUEST_FLOW_Database = Fonte{[Name="GUEST_FLOW",Kind="Database"]}[Data],
+				    GOLD_MARTS_Schema = GUEST_FLOW_Database{[Name="GOLD_MARTS",Kind="Schema"]}[Data],
+				    MART_OCUPACAO_MENSAL_Table = GOLD_MARTS_Schema{[Name="MART_OCUPACAO_MENSAL",Kind="Table"]}[Data]
+				in
+				    MART_OCUPACAO_MENSAL_Table
+
+	annotation PBI_ResultType = Table
+
