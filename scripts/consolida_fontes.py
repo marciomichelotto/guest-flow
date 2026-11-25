@@ -40,6 +40,7 @@ import calendar
 import datetime as dt
 import re
 import sys
+import unicodedata
 import zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
@@ -628,7 +629,11 @@ def resolve_hospedes(dim_hospede: pd.DataFrame) -> pd.DataFrame:
     terceiro que reserva pra outros) pode gerar falso positivo; troca de
     número ao longo dos 10 anos pode gerar falso negativo.
     """
-    dh = dim_hospede[["hospede_id", "reserva", "tel_1", "tel_2", "email"]].copy()
+    cols = ["hospede_id", "reserva", "tel_1", "tel_2", "email", "nome", "estado"]
+    dh = dim_hospede[[c for c in cols if c in dim_hospede.columns]].copy()
+    for c in cols:
+        if c not in dh.columns:
+            dh[c] = None
 
     def norm_tel(t):
         if pd.isna(t):
@@ -665,6 +670,38 @@ def resolve_hospedes(dim_hospede: pd.DataFrame) -> pd.DataFrame:
             for r in grupo.iloc[1:]:
                 uniao(base, r)
 
+    # Nome completo igual, como terceira chave — só quando é discriminante:
+    # >= 3 palavras, ou 2 palavras + mesmo estado informado (evita juntar
+    # "José Silva" de lugares diferentes). Nomes com "/", " e " ou "&"
+    # (casal, grupo) ficam de fora. O risco de homônimo permanece, por isso
+    # o método do grupo vira 'nome' e dá pra auditar essas junções à parte.
+    def norm_nome(n):
+        if pd.isna(n):
+            return None
+        n = unicodedata.normalize("NFKD", str(n)).encode("ascii", "ignore").decode().lower()
+        if re.search(r"[/&]| e ", n):
+            return None
+        n = re.sub(r"\(.*?\)", " ", n)
+        n = " ".join(re.sub(r"[^a-z ]", " ", n).split())
+        return n or None
+
+    def norm_uf(e):
+        e = None if pd.isna(e) else str(e).strip().upper()
+        return e if e and re.fullmatch(r"[A-Z]{2}", e) else None
+
+    dh["nome_n"] = dh["nome"].map(norm_nome)
+    dh["uf_n"] = dh["estado"].map(norm_uf)
+    dh["nome_chave"] = None
+    n_pal = dh["nome_n"].str.split().str.len()
+    forte = dh["nome_n"].notna() & (n_pal >= 3)
+    medio = dh["nome_n"].notna() & (n_pal == 2) & dh["uf_n"].notna()
+    dh.loc[forte, "nome_chave"] = dh["nome_n"]
+    dh.loc[medio, "nome_chave"] = dh["nome_n"] + "|" + dh["uf_n"].fillna("")
+    for _, grupo in dh.dropna(subset=["nome_chave"]).groupby("nome_chave")["reserva"]:
+        base = grupo.iloc[0]
+        for r in grupo.iloc[1:]:
+            uniao(base, r)
+
     dh["hospede_unico_id"] = dh["reserva"].map(raiz)
 
     def metodo_do_grupo(g: pd.DataFrame) -> str:
@@ -675,7 +712,9 @@ def resolve_hospedes(dim_hospede: pd.DataFrame) -> pd.DataFrame:
         tem_email = g["email_n"].dropna().duplicated().any()
         if tem_tel and tem_email:
             return "telefone+email"
-        return "telefone" if tem_tel else ("email" if tem_email else "sem_match")
+        if tem_tel:
+            return "telefone"
+        return "email" if tem_email else "nome"
 
     metodo_por_grupo = dh.groupby("hospede_unico_id").apply(
         metodo_do_grupo, include_groups=False

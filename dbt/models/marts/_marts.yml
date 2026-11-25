@@ -52,3 +52,29 @@ models:
     columns:
       - name: hospede_unico_id
         tests: [unique, not_null]
+
+  - name: mart_coorte_hospede
+    description: >
+      Grão coorte_ano x anos_depois. Coorte = ano civil da primeira estadia
+      do hóspede único. pct_da_coorte em anos_depois = 0 é sempre 1.
+      2006 (só dezembro) e 2017 (até julho) são parciais.
+    columns:
+      - name: coorte_ano
+        tests: [not_null]
+      - name: anos_depois
+        tests: [not_null]
+      - name: pct_da_coorte
+        tests: [not_null]
+
+  - name: mart_hospede_rfm
+    description: >
+      Grão hospede_unico_id, notas RFM (1-5) relativas ao fim da janela
+      (2017-07-31) e segmento de fidelidade.
+    columns:
+      - name: hospede_unico_id
+        tests: [unique, not_null]
+      - name: segmento
+        tests:
+          - accepted_values:
+              arguments:
+                values: [fiel, fiel_adormecido, recorrente, unica_vez]
