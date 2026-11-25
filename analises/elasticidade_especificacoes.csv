@@ -1,0 +1,9 @@
+especificação,elasticidade,ic_inf,ic_sup
+mensal: sem controles,-0.145,-0.409,0.12
+mensal: + mês,-0.534,-0.841,-0.227
+mensal: + mês + tendência,-0.903,-1.179,-0.628
+mensal: + mês + ano,-0.48,-0.785,-0.175
+semanal: sem controles,0.08,-0.183,0.343
+semanal: + mês,-0.145,-0.434,0.144
+semanal: + mês + tendência,-0.172,-0.539,0.196
+semanal: + mês + ano,0.158,-0.16,0.476
