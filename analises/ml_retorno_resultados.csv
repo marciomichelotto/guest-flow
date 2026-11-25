@@ -1,0 +1,5 @@
+modelo,AUC,AUC_ic_inf,AUC_ic_sup,AP,retorno_no_top10%
+baseline (taxa base),0.5,,,0.055,0.055
+regressão logística,0.491,0.422,0.564,0.053,0.035
+random forest,0.468,0.384,0.558,0.068,0.07
+gradient boosting,0.477,0.399,0.558,0.051,0.047
